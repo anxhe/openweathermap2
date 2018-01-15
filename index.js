@@ -1,18 +1,18 @@
-BASE = "https://api.openweathermap.org/data/2.5/"
+const BASE = "https://api.openweathermap.org/data/2.5/weather?q="
 
-PROVINCIAS = {
-  almeria: "weather?q=Almería,es",
-  granada: "weather?q=Granada,es",
-  huelva: "weather?q=Huelva,es",
-  cadiz: "weather?q=Cadiz,es",
-  jaen: "weather?q=Jaen,es",
-  sevilla: "weather?q=Sevilla,es",
-  cordoba: "weather?q=Cordoba,es",
-  malaga: "weather?q=Málaga,es"
-}
+const ANDALUCIA = [
+  "Almería,es",
+  "Granada,es",
+  "Huelva,es",
+  "Cádiz,es",
+  "Jaén,es",
+  "Sevilla,es",
+  "Cordoba,es",
+  "Málaga,es"
+]
 
-APPID = "appid=a3a348e0caa4a617475b716bb95e9b8f"
-UNITS = "units=metric"
+const APPID = "appid=a3a348e0caa4a617475b716bb95e9b8f"
+const UNITS = "units=metric"
 
 function newRequest(URL){
 	//New Promise recibe una funcion
@@ -25,8 +25,7 @@ function newRequest(URL){
 				if(req.status === OK){
           resolve(JSON.parse(req.responseText))
 				} else {
-					//Hubo un error
-					reject(newError(`Se produjo un error: ${req.status}`))
+					reject(new Error(`Se produjo un error: ${req.status}`))
 				}
 			}
 		}
@@ -40,10 +39,17 @@ function handleError(err){
 	console.log(`Request failed: ${err}`)
 }
 
-//falta iterar por cada ciudad y generar la media.
-newRequest(`${BASE}${PROVINCIAS.malaga}&${APPID}&${UNITS}`)
-  .then((response)=> {
-    let temp = response.main.temp;
-    console.log(temp)
+/*Crear un array con el request de cada provincia*/
+const requests = ANDALUCIA.map((province) => newRequest(`${BASE}${province}&${APPID}&${UNITS}`));
+
+/*Cuando esten resueltos todos los requests, acumulamos la temperatura de cada provincia y calculamos la media*/
+
+Promise.all(requests)
+  .then(provinces => {
+    let average = 0
+    provinces.forEach((province) => {
+      average += province.main.temp
+    })
+    console.log(average/provinces.length);
   })
-  .catch((err)=> handleError(err))
+  .catch(err => handleError(err))
