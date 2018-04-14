@@ -1,0 +1,31 @@
+{
+  "name": "requests-openweathermap-api",
+  "version": "1.0.0",
+  "description": "Request openweathermap with async await",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anxhe/requests-openweathermap-api.git"
+  },
+  "author": "'anyelinamoreno@gmail.com'",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anxhe/requests-openweathermap-api/issues"
+  },
+  "homepage": "https://github.com/anxhe/requests-openweathermap-api#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}
